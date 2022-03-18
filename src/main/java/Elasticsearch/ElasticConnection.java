@@ -1,51 +1,34 @@
 package Elasticsearch;
 
+
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
 import org.apache.http.HttpHost;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.get.GetIndexAction;
-import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
-import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.support.master.AcknowledgedResponse;
-import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.CreateIndexResponse;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ElasticConnection {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        RestHighLevelClient client = new RestHighLevelClient(
-                RestClient.builder(new HttpHost("localhost", 9200, "http")));
+        RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200)).build();
+        ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
+        ElasticsearchClient client = new ElasticsearchClient(transport);
 
-    /*    CreateIndexRequest request = new CreateIndexRequest("shop_market");
-        request.settings(Settings.builder().put("index.number_of_shards", 1).put("index.number_of_replicas", 2));
-        try {
-            CreateIndexResponse createIndexRequest = client.indices().create(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
+        SearchResponse<Product> search = client.search(s->s.index("shop_market").query(q->q.term(t->t.field("name").value(v->v.stringValue("bicycle")))),
+                Product.class);
+        
+        for (Hit<Product> hit: search.hits().hits()) {
+            processProduct(hit.source());
         }
 
-
-        DeleteIndexRequest dRequest = new DeleteIndexRequest("opportunity");
-        try {
-            AcknowledgedResponse indexResponse = client.indices().delete(dRequest, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-     */
-
-        SearchRequest searchRequest = new SearchRequest("shop_index");
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-        searchRequest.source(searchSourceBuilder);
-        }
     }
 
+    private static void processProduct(Product source) {
+
+    }
+}
