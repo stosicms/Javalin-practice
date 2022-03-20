@@ -21,7 +21,9 @@ public class ElasticConnection {
 
         SearchResponse<Product> search = client.search(s->s.index("shop_market").query(q->q.term(t->t.field("name").value(v->v.stringValue("bicycle")))),
                 Product.class);
-        
+
+        System.out.println("HEY: " + search.toString());
+
         for (Hit<Product> hit: search.hits().hits()) {
             processProduct(hit.source());
         }
@@ -29,6 +31,6 @@ public class ElasticConnection {
     }
 
     private static void processProduct(Product source) {
-
+        System.out.println(source);
     }
 }
