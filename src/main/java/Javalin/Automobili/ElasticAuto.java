@@ -12,12 +12,8 @@ import org.elasticsearch.client.RestClient;
 
 import java.io.IOException;
 
-public class ElasticAuto {
+public class ElasticAuto extends ElasticLog{
     public static String[] elastic() {
-
-        RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200)).build();
-        ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
-        ElasticsearchClient client = new ElasticsearchClient(transport);
 
         SearchResponse<Automobili> search = null;
         try {
