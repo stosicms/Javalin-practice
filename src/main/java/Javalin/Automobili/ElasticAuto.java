@@ -12,12 +12,12 @@ import org.elasticsearch.client.RestClient;
 
 import java.io.IOException;
 
-public class ElasticAuto extends ElasticLog{
+public class ElasticAuto {
     public static String[] elastic() {
 
         SearchResponse<Automobili> search = null;
         try {
-            search = client.search(s->s.index("automobili").query(q->q.term(t->t.field("name").value(v->v.stringValue("BMW")))),
+            search = ElasticLog.getInstance().search(s->s.index("automobili").query(q->q.term(t->t.field("name").value(v->v.stringValue("*")))),
                     Automobili.class);
         } catch (IOException e) {
             e.printStackTrace();

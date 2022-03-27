@@ -19,7 +19,7 @@ public class ElasticConnection {
         ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
         ElasticsearchClient client = new ElasticsearchClient(transport);
 
-        SearchResponse<Product> search = client.search(s->s.index("shop_market").query(q->q.term(t->t.field("name").value(v->v.stringValue("bicycle")))),
+        SearchResponse<Product> search = client.search(s->s.index("shop_index").query(q->q.term(t->t.field("id").value(v->v.stringValue("urn:ngsi-ld:Shelf:unit002")))),
                 Product.class);
 
         System.out.println("HEY: " + search.toString());

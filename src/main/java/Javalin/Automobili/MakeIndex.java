@@ -12,7 +12,15 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.common.xcontent.XContentType;
 
-public class MakeIndex extends ElasticLog {
+import java.io.IOException;
+import java.sql.ClientInfoStatus;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class MakeIndex {
+    private static List<String> lista = Arrays.asList("BMW", "MERCEDES", "OPEL", "VOLKSWAGEN");
+    BulkRequest bulkRequest = new BulkRequest();
     public static void main(String[] args) {
         final byte[] bytes = null;
 
@@ -21,15 +29,19 @@ public class MakeIndex extends ElasticLog {
         indexRequest.source(bytes, XContentType.JSON);
 
         final IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
-*/
-        BulkRequest bulkRequest = new BulkRequest();
 
-        bulkRequest.add(new IndexRequest("automobil").id("001").source(XContentType.JSON, "marka", "BMW"));
-        bulkRequest.add(new IndexRequest("automobil").id("002").source(XContentType.JSON, "marka", "MERCEDES"));
-        bulkRequest.add(new IndexRequest("automobil").id("003").source(XContentType.JSON, "marka", "AUDI"));
-        bulkRequest.add(new IndexRequest("automobil").id("004").source(XContentType.JSON, "marka", "OPEL"));
-        bulkRequest.add(new IndexRequest("automobil").id("005").source(XContentType.JSON, "marka", "VOLKSWAGEN"));
 
-        client.bulk(bulkRequest, RequestOptions.DEFAULT);
+    }
+    public <T> void bulkAdd (List <T> lista) {
+        for (var user: lista) {
+            bulkRequest.add(new IndexRequest("automobil").source(XContentType.JSON, "marka", user));
+        }
+        try {
+
+            ElasticLog.getInstance().bulk(bulkRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 }
+

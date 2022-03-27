@@ -14,5 +14,6 @@ public class JavalinConnection {
         app.get("/", ctx -> ctx.result("Cars plays"));
         app.get("/marka", MarkaController::getMarkas);
         app.get("/marka/{special}", MarkaController::getSpecialMarka);
+
     }
 }
