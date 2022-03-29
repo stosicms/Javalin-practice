@@ -6,10 +6,14 @@ import java.util.Arrays;
 
 public class MarkaController {
 
-    public static String[] markas = ElasticAuto.elastic();
+/*    public static String[] markas = ElasticAuto.elastic();
+
+    ServiceBulk serviceBulk = new ServiceBulk();
 
     public static void getMarkas(Context context) {
-        context.json(markas);
+        var marka : String = context.req.getContentType();
+        serviceBulk.bulkAdd(marka);
+        context.result("Ubacena marka vozila");
     }
     public static void getSpecialMarka (Context context) {
         for (String marka: markas) {
@@ -26,4 +30,6 @@ public class MarkaController {
                 "markas=" + Arrays.toString(markas) +
                 '}';
     }
+
+ */
 }

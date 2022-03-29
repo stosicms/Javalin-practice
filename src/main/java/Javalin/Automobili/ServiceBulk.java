@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MakeIndex {
+class MakeIndex {
     private static List<String> lista = Arrays.asList("BMW", "MERCEDES", "OPEL", "VOLKSWAGEN");
     BulkRequest bulkRequest = new BulkRequest();
     public static void main(String[] args) {

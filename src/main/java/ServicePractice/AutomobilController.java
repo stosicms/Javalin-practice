@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class AutomobilController {
 
 
-    public static String[] auto = AutomobiliSearch.searchElastic("automobili", App.main(String.valueOf(nesto));
+    public static String[] auto = AutomobiliSearch.searchElastic("automobili", "marka", "*");
 
     public static void getAuto (Context context) {
         context.json(auto);

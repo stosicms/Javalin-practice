@@ -8,17 +8,16 @@ import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 
 public class ElasticLog {
+        private static ElasticsearchClient client = null;
 
-    private static ElasticsearchClient client = null;
+        private ElasticLog() {}
 
-    private ElasticLog() {}
-
-    public static ElasticsearchClient getInstance() {
-        if (client == null) {
-            RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200)).build();
-            ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
-            ElasticsearchClient client = new ElasticsearchClient(transport);
+        public static ElasticsearchClient getInstance() {
+                if (client == null) {
+                        RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200)).build();
+                        ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
+                        ElasticsearchClient client = new ElasticsearchClient(transport);
+                }
+                return client;
         }
-        return client;
-    }
 }
